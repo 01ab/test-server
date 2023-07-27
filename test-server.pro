@@ -1,5 +1,5 @@
 QT -= gui
-QT += network
+QT += network sql
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
@@ -10,6 +10,7 @@ CONFIG -= app_bundle
 
 SOURCES += \
         client/TCPClient.cpp \
+        database/SQLiteDatabase.cpp \
         main.cpp \
         server/TCPServer.cpp \
         usecase/Server.cpp
@@ -22,5 +23,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     client/IClient.h \
     client/TCPClient.h \
+    database/IDatabase.h \
+    database/SQLiteDatabase.h \
     server/TCPServer.h \
     usecase/Server.h

@@ -2,11 +2,13 @@
 #include <QDebug>
 
 #include <client/TCPClient.h>
+#include <database/SQLiteDatabase.h>
 #include <server/TCPServer.h>
 #include <usecase/Server.h>
 
 TCPServer* ipServer;
 Server* server;
+IDatabase* db;
 
 const int ListenPort = 2020;
 
@@ -15,6 +17,7 @@ int main(int argc, char* argv[])
 {
     QCoreApplication a(argc, argv);
     qDebug() << "test-server";
+    db = new SQLiteDatabase("data.db");
     server = new Server;
     ipServer = new TCPServer();
     QObject::connect(ipServer, &TCPServer::newClient, server, [](qintptr socket) {

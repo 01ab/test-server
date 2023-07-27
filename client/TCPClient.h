@@ -9,11 +9,12 @@
 class TCPClient : public IClient {
     Q_OBJECT
     qintptr _socketDescriptor;
-    QTcpSocket* _socket;
+    QTcpSocket* _socket = nullptr;
     QThread* _thread;
 
 public:
     TCPClient(qintptr socketDescriptor, QObject* parent = nullptr);
+    ~TCPClient();
 
 public slots:
     virtual void reply(QByteArray data) override;

@@ -14,6 +14,8 @@ public slots:
     void newClient(IClient* client);
 
 signals:
+protected slots:
+    void processClientRequest(QByteArray data);
 };
 
 #endif // SERVER_H
