@@ -10,7 +10,9 @@ CONFIG -= app_bundle
 
 SOURCES += \
         client/TCPClient.cpp \
-        main.cpp
+        main.cpp \
+        server/TCPServer.cpp \
+        usecase/Server.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -19,4 +21,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     client/IClient.h \
-    client/TCPClient.h
+    client/TCPClient.h \
+    server/TCPServer.h \
+    usecase/Server.h
