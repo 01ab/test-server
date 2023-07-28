@@ -4,16 +4,19 @@
 
 #include <QObject>
 #include <client/IClient.h>
+#include <database/IDatabase.h>
 
 class Server : public QObject {
     Q_OBJECT
+
+    IDatabase* _db;
+
 public:
-    explicit Server(QObject* parent = nullptr);
+    explicit Server(IDatabase* db, QObject* parent = nullptr);
 
 public slots:
     void newClient(IClient* client);
 
-signals:
 protected slots:
     void processClientRequest(QByteArray data);
 };

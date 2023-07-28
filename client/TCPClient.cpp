@@ -29,7 +29,7 @@ void TCPClient::reply(QByteArray data)
         QMetaObject::invokeMethod(this, "reply", Q_ARG(QByteArray, data));
         return;
     }
-    if (_socket->state() != QTcpSocket::ConnectedState) {
+    if (!_socket || _socket->state() != QTcpSocket::ConnectedState) {
         qDebug() << "Error, sending data when socket is not connected";
         return;
     }

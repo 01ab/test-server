@@ -12,7 +12,7 @@ class SQLiteDatabase : public IDatabase {
 public:
     explicit SQLiteDatabase(QString fileName, QObject* parent = nullptr);
 
-    virtual QSqlQuery query(QString request) override;
+    virtual QSqlQuery query(QString request = QString()) override;
 };
 
 #endif // SQLITEDATABASE_H

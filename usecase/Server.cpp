@@ -1,8 +1,9 @@
 #include "Server.h"
 #include <QDebug>
 
-Server::Server(QObject* parent)
+Server::Server(IDatabase* db, QObject* parent)
     : QObject { parent }
+    , _db { db }
 {
 }
 

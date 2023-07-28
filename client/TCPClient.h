@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QThread>
 
+// Очевидно что это реализация клиента по протоколу TCP/IP
 class TCPClient : public IClient {
     Q_OBJECT
     qintptr _socketDescriptor;

@@ -1,5 +1,5 @@
 QT -= gui
-QT += network sql
+QT += network sql xml
 
 CONFIG += c++17 console
 CONFIG -= app_bundle
@@ -13,6 +13,8 @@ SOURCES += \
         database/SQLiteDatabase.cpp \
         main.cpp \
         server/TCPServer.cpp \
+        usecase/DatabaseFiller.cpp \
+        usecase/DatabaseWatcher.cpp \
         usecase/Server.cpp
 
 # Default rules for deployment.
@@ -26,4 +28,6 @@ HEADERS += \
     database/IDatabase.h \
     database/SQLiteDatabase.h \
     server/TCPServer.h \
+    usecase/DatabaseFiller.h \
+    usecase/DatabaseWatcher.h \
     usecase/Server.h

@@ -13,7 +13,7 @@ public:
         : QObject { parent } {};
 
 public:
-    virtual QSqlQuery query(QString request) = 0;
+    virtual QSqlQuery query(QString request = QString()) = 0;
 };
 
 #endif // IDATABASE_H
