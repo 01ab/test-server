@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 {
     QCoreApplication a(argc, argv);
     qDebug() << "test-server";
-    db = new SQLiteDatabase("data.db");
+    db = new SQLiteDatabase(QCoreApplication::applicationDirPath() + "/data/database.db");
     server = new Server(db);
     ipServer = new TCPServer();
     QObject::connect(ipServer, &TCPServer::newClient, server, [](qintptr socket) {

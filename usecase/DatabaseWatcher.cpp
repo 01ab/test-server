@@ -18,11 +18,10 @@ DatabaseWatcher::DatabaseWatcher(DatabaseFiller* filler, QString directory, QObj
     _timer.setInterval(60000); // раз в минуту
     _timer.start();
 
+    // немного ватчера мимо кассы
     QFileSystemWatcher* fsw = new QFileSystemWatcher({ directory }, this);
-    connect(fsw, &QFileSystemWatcher::fileChanged, this, [this](const QString fileName) {
-        if (fileName.endsWith(".xml", Qt::CaseInsensitive))
-            syncData();
-    });
+    connect(fsw, &QFileSystemWatcher::directoryChanged, this, &DatabaseWatcher::syncData);
+
     syncData();
 }
 
@@ -45,8 +44,10 @@ void DatabaseWatcher::syncData()
     QMap<QString, QDateTime> exists = existsFiles();
     // удаляем файлы которых уже нет
     foreach (QString file, loaded.keys()) {
-        if (!exists.contains(file))
+        if (!exists.contains(file)) {
             _filler->removeXmlFile(file);
+            qDebug() << "File" << file << "removed";
+        }
     }
     // Загружаем файлы новые, или обновлённые
     foreach (QString file, exists.keys()) {
