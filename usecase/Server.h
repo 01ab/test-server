@@ -19,6 +19,10 @@ public slots:
 
 protected slots:
     void processClientRequest(QByteArray data);
+private:
+    QJsonArray dumpBlocksToJson();
+    QJsonArray dumpBoardsToJson(int blockId);
+    QJsonArray dumpPortsToJson(int boardId);
 };
 
 #endif // SERVER_H

@@ -21,6 +21,7 @@ DatabaseWatcher::DatabaseWatcher(DatabaseFiller* filler, QString directory, QObj
     // немного ватчера мимо кассы
     QFileSystemWatcher* fsw = new QFileSystemWatcher({ directory }, this);
     connect(fsw, &QFileSystemWatcher::directoryChanged, this, &DatabaseWatcher::syncData);
+    connect(this, &QObject::destroyed, fsw, &QObject::deleteLater);
 
     syncData();
 }

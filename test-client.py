@@ -6,8 +6,8 @@ def test_connection():
     s.connect(("localhost", 2020))
     data = {'request':'database'}
     s.sendall(json.dumps(data).encode())
-    print(s.recv(5000))
+    print(s.recv(15000).decode())
     s.close()
 
-for i in range(1004): 
+for i in range(4): 
     test_connection()

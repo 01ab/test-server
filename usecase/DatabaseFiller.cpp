@@ -35,6 +35,7 @@ DatabaseFiller::DatabaseFiller(IDatabase* db, QObject* parent)
               "board_id INTEGER NOT NULL, "
               "id TEXT NOT NULL, "
               "FOREIGN KEY(board_id) REFERENCES board(board_id) ON DELETE CASCADE);");
+    execQuery("PRAGMA foreign_keys=on;"); // для работы ON DELETE CASCADE
 }
 
 void DatabaseFiller::execQuery(QString query)
@@ -55,7 +56,7 @@ QVariant DatabaseFiller::createSource(QString fileName)
     QSqlQuery query = _db->query();
     query.prepare("INSERT INTO source (path, lastWriteTime) VALUES (:path, :lastWriteTime)");
     query.bindValue(":path", fileName);
-    query.bindValue(":lastWriteTime", QFileInfo { fileName }.lastModified().toString());
+    query.bindValue(":lastWriteTime", QFileInfo { fileName }.lastModified().toString()); // todo вынести из класса
     execQuery(query);
     return query.lastInsertId();
 }
@@ -103,7 +104,7 @@ void DatabaseFiller::removeXmlFile(QString fileName)
 
 void DatabaseFiller::loadXmlFile(QString fileName)
 {
-    // сначала удалим всё что с таким же path
+    // сначала удалим всё содержание что с таким же именем файла
     removeXmlFile(fileName);
 
     QFile file(fileName);
@@ -126,7 +127,7 @@ void DatabaseFiller::loadXmlFile(QString fileName)
         return;
 
     QDomNodeList blocks = doc.elementsByTagName("block");
-    // В тз один файл один блок, но сделаем для большего количества, xml же
+    // В тз один файл один блок, но сделаем для большего количества
     if (blocks.length() > 1)
         qDebug() << "File" << fileName << "has more than 1 block entry";
 
