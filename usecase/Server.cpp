@@ -13,6 +13,14 @@ Server::Server(IDatabase* db, QObject* parent)
 {
 }
 
+void appendFieldsFromRecord(QJsonObject& obj, const QSqlRecord& record)
+{
+    for (int i = 0; i < record.count(); ++i) {
+        if (record.field(i).type() == QVariant::Type::String)
+            obj[record.fieldName(i)] = record.field(i).value().toString();
+    }
+}
+
 QJsonArray Server::dumpPortsToJson(int boardId)
 {
     QJsonArray result;
@@ -21,10 +29,8 @@ QJsonArray Server::dumpPortsToJson(int boardId)
     ports.bindValue(":board_id", boardId);
     ports.exec();
     while (ports.next()) {
-        QJsonObject port;
-        QSqlRecord record = ports.record();
-        for (int i = 0; i < record.count(); ++i)
-            port[record.fieldName(i)] = record.field(i).value().toString();
+        QJsonObject port { { "type", "port" } };
+        appendFieldsFromRecord(port, ports.record());
         result.append(port);
     }
     return result;
@@ -38,10 +44,9 @@ QJsonArray Server::dumpBoardsToJson(int blockId)
     boards.bindValue(":block_id", blockId);
     boards.exec();
     while (boards.next()) {
-        QJsonObject board;
+        QJsonObject board { { "type", "board" } };
         QSqlRecord record = boards.record();
-        for (int i = 0; i < record.count(); ++i)
-            board[record.fieldName(i)] = record.field(i).value().toString();
+        appendFieldsFromRecord(board, record);
         board["ports"] = dumpPortsToJson(record.field(record.indexOf("board_id")).value().toInt());
         result.append(board);
     }
@@ -53,10 +58,9 @@ QJsonArray Server::dumpBlocksToJson()
     QJsonArray result;
     QSqlQuery blocks = _db->query("SELECT * FROM block");
     while (blocks.next()) {
-        QJsonObject block;
+        QJsonObject block { { "type", "block" } };
         QSqlRecord record = blocks.record();
-        for (int i = 0; i < record.count(); ++i)
-            block[record.fieldName(i)] = record.field(i).value().toString();
+        appendFieldsFromRecord(block, record);
         block["boards"] = dumpBoardsToJson(record.field(record.indexOf("block_id")).value().toInt());
         result.append(block);
     }

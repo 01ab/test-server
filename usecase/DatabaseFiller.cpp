@@ -35,7 +35,7 @@ DatabaseFiller::DatabaseFiller(IDatabase* db, QObject* parent)
               "board_id INTEGER NOT NULL, "
               "id TEXT NOT NULL, "
               "FOREIGN KEY(board_id) REFERENCES board(board_id) ON DELETE CASCADE);");
-    execQuery("PRAGMA foreign_keys=on;"); // для работы ON DELETE CASCADE
+    execQuery("PRAGMA foreign_keys=on;"); // нужно для работы ON DELETE CASCADE
 }
 
 void DatabaseFiller::execQuery(QString query)
